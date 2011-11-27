@@ -1,0 +1,14 @@
+#!/usr/bin/env node
+
+var argv = require('optimist')
+  .usage('Usage: $0 -c [config path]')
+  .alias('c', 'config')
+  .default('c', './config.json')
+  .demand(['c'])
+  .argv;
+
+var config = require('../lib/util/config');
+config = config.loadConfig(argv.c);
+
+var server = require('../lib/http/api/server');
+server.run(config.api_server.port, config.api_server.host);
